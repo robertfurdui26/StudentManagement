@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connString = builder.Configuration.GetConnectionString("SqlDbConnectionString");
 builder.Services.AddDbContext<StudentDbContect>(options => options.UseSqlServer(connString));
-builder.Services.AddScoped<DataAccessLayerService>();
+builder.Services.AddScoped<IDataAccessLayerService,DataAccessLayerService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

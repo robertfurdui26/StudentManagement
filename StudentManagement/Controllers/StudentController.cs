@@ -22,7 +22,7 @@ namespace StudentManagement.Controllers
         [HttpGet("getAllStudents")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StudentGetDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(string))]
         public IEnumerable<StudentGetDto> GetAllStudents()
         {
             var allStudents = dal.GetStudents();
@@ -38,7 +38,6 @@ namespace StudentManagement.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StudentCreateDto))]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         public StudentGetDto CreateStudent([FromBody] StudentCreateDto studentToCreate) =>
             dal.AddStudent(studentToCreate.ToEntity()).ToDto();
 
@@ -50,10 +49,22 @@ namespace StudentManagement.Controllers
         [HttpPatch("updateStudent")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StudentUpdateDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(string))]
         public StudentGetDto UpdateStudent([FromBody] StudentUpdateDto studentToUpdate) =>
             dal.Update(studentToUpdate.ToEntity()).ToDto();
 
+
+        /// <summary>
+        /// Get Student by Id
+        /// </summary>
+        /// <param name="id">studentId</param>
+        /// <returns>return a student from database by id</returns>
+        [HttpGet("/getStudentbyId/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StudentGetDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(string))]
+        public StudentGetDto GetStudentbyId(int id) =>
+            dal.StudentById(id).ToDto();
 
         /// <summary>
         /// Delete a student 
@@ -63,7 +74,7 @@ namespace StudentManagement.Controllers
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(string))]
         public IActionResult DeleteAStudent(int id)
         {
             try

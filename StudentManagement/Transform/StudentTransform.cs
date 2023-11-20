@@ -19,6 +19,7 @@ namespace StudentManagement.Transform
                 Name = student.Name,
                 Age = student.Age,
             };
+
         public static Student ToEntity(this StudentUpdateDto student) =>
             student is null
             ? throw new Exception($"Student not found{student}!!")
@@ -28,6 +29,9 @@ namespace StudentManagement.Transform
                 Name = student.Name,
                 Age = student.Age,
             };
-        
+        public static StudentAddressDto ToDto(this Address studentAddress) =>
+            studentAddress is null
+            ? throw new Exception("Address not found !")
+            : new StudentAddressDto { Id = studentAddress.Id ,Number = studentAddress.Number , City = studentAddress.City,Street = studentAddress.Street};
     }
 }
