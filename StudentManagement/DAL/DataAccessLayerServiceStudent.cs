@@ -6,9 +6,9 @@ namespace StudentManagement.DAL
 {
     public partial class DataAccessLayerService : IDataAccessLayerService
     {
-        private readonly StudentDbContect ctx;
+        private readonly StudentDbContext ctx;
 
-        public DataAccessLayerService(StudentDbContect ctx)
+        public DataAccessLayerService(StudentDbContext ctx)
         {
             this.ctx = ctx;
         }

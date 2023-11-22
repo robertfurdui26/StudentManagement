@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudentManagement.DAL;
+using StudentManagement.Data;
 using StudentManagement.DTO;
 using StudentManagement.Model;
 
@@ -9,8 +10,8 @@ namespace StudentManagement.Controllers
     [ApiController]
     public class MarksController : ControllerBase
     {
-        private readonly DataAccessLayerService dal;
-        public MarksController(DataAccessLayerService dal)
+        private readonly IDataAccessLayerService dal;
+        public MarksController(IDataAccessLayerService dal)
         {
             this.dal = dal;
         }

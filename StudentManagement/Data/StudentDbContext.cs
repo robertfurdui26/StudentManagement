@@ -3,9 +3,9 @@ using StudentManagement.Model;
 
 namespace StudentManagement.Data
 {
-    public class StudentDbContect : DbContext, IStudentDbContect
+    public class StudentDbContext : DbContext, IStudentDbContext
     {
-        public StudentDbContect(DbContextOptions<StudentDbContect> options) : base(options)
+        public StudentDbContext(DbContextOptions<StudentDbContext> options) : base(options)
         {
             Database.EnsureCreated();
         }

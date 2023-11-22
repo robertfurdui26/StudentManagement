@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudentManagement.DAL;
+using StudentManagement.Data;
 using StudentManagement.DTO;
 using StudentManagement.Transform;
 
@@ -9,9 +10,9 @@ namespace StudentManagement.Controllers
     [ApiController]
     public class AddressController : ControllerBase
     {
-        private readonly DataAccessLayerService dal;
+        private readonly IDataAccessLayerService dal;
 
-        public AddressController(DataAccessLayerService dal)
+        public AddressController(IDataAccessLayerService dal)
         {
             this.dal = dal;
         }
@@ -22,7 +23,7 @@ namespace StudentManagement.Controllers
         /// </summary>
         /// <param name="id">studentId</param>
         /// <returns>Return address for a student and if id is null it will throw an error</returns>
-        [HttpGet("address{id}")]
+        [HttpGet("address/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StudentAddressDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]

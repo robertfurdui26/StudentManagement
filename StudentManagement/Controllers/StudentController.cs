@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudentManagement.DAL;
+using StudentManagement.Data;
 using StudentManagement.DTO;
 using StudentManagement.Transform;
 
@@ -9,8 +10,8 @@ namespace StudentManagement.Controllers
     [ApiController]
     public class StudentController : ControllerBase
     {
-        private readonly DataAccessLayerService dal;
-        public StudentController(DataAccessLayerService dal)
+        private readonly IDataAccessLayerService dal;
+        public StudentController(IDataAccessLayerService dal)
         {
             this.dal = dal;
         }
@@ -59,7 +60,7 @@ namespace StudentManagement.Controllers
         /// </summary>
         /// <param name="id">studentId</param>
         /// <returns>return a student from database by id</returns>
-        [HttpGet("/getStudentbyId/{id}")]
+        [HttpGet("/getStudentById/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StudentGetDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(string))]
@@ -71,7 +72,7 @@ namespace StudentManagement.Controllers
         /// </summary>
         /// <param name="id">Id</param>
         /// <returns>Student with id {id} will be removed from database </returns>
-        [HttpDelete]
+        [HttpDelete("delete")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(string))]

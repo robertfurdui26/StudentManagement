@@ -6,12 +6,19 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 var connString = builder.Configuration.GetConnectionString("SqlDbConnectionString");
-builder.Services.AddDbContext<StudentDbContect>(options => options.UseSqlServer(connString));
+builder.Services.AddDbContext<StudentDbContext>(options => options.UseSqlServer(connString));
 builder.Services.AddScoped<IDataAccessLayerService,DataAccessLayerService>();
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactOrigin", builder =>
+    {
+        builder.WithOrigins("http://localhost:3000")
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(o => AddSwaggerDocumentation(o));
 
@@ -23,6 +30,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("AllowReactOrigin");
 
 app.UseHttpsRedirection();
 

@@ -3,7 +3,7 @@ using StudentManagement.Model;
 
 namespace StudentManagement.Data
 {
-    public interface IStudentDbContect
+    public interface IStudentDbContext
     {
         DbSet<Address> AddressDb { get; set; }
         DbSet<Course> CoursesDb { get; set; }

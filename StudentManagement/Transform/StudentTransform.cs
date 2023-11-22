@@ -8,7 +8,7 @@ namespace StudentManagement.Transform
     {
         public static StudentGetDto ToDto(this Student student) =>
             student is null
-            ? throw new Exception($"Student cannot created{student}")
+            ? throw new Exception($"Student not Found {student}")
             : new StudentGetDto { Id =  student.Id ,Name = student.Name , Age = student.Age};
 
         public static Student ToEntity(this StudentCreateDto student) =>
