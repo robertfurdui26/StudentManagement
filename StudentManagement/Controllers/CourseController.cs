@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StudentManagement.DAL;
 using StudentManagement.Data;
-using StudentManagement.DTO;
+using StudentManagement.Dto;
 using StudentManagement.Model;
+using StudentManagement.Transform;
+using System.Runtime.Serialization;
+using System.Threading.Tasks;
+
 
 namespace StudentManagement.Controllers
 {
@@ -17,37 +20,61 @@ namespace StudentManagement.Controllers
             this.dal = dal;
         }
 
+        /// <summary>
+        /// Get Courses
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("courses")]
+        public async Task<IEnumerable<CourseGetDto>> GetAllCourse()
+        {
+            var allCourses = await dal.GetAll();
+            return allCourses.Select(s => StudentTransform.ToDto(s)).ToList();
+        }
+
 
         /// <summary>
-        ///  Create course for student
+        /// Create Course
         /// </summary>
-        /// <param name="courseName">courseDto</param>
-        /// <returns>We create a new course and store this course in database</returns>
+        /// <param name="createCourseDto"></param>
+        /// <returns></returns>
         [HttpPost("addCourse")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        public IActionResult CreateCourse([FromBody] string courseName)
+        public async Task<ActionResult<CourseGetDto>> AddCourse([FromBody] CreateCourseDto createCourseDto)
         {
             try
             {
-                var course = dal.AddCourse(courseName);
-                return Ok(course);
+                var course = await dal.AddCourse(createCourseDto.ToEntity());
+                var courseDto = StudentTransform.ToDto(course);
+                return Ok(courseDto);
             }
             catch (Exception ex)
-            {             
+            {
                 return BadRequest(ex.Message);
             }
         }
 
+
+
         /// <summary>
-        /// Get all Courses
+        /// Update Course
         /// </summary>
-        /// <returns>Extract all courses from database</returns>
-        [HttpGet("getCourses")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StudentUpdateDto))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(string))]
-        public List<Course> GetAllCourses() => dal.GetCourses();
+        /// <param name="courseUpdateDto"></param>
+        /// <returns>Update a course from database with new property</returns>
+        [HttpPut("updateCourse")]
+        public async Task<ActionResult<CourseGetDto>> UpdateCourses([FromBody] CourseUpdateDto courseUpdateDto)
+        {
+            try
+            {
+                var course = await dal.UpCourse(courseUpdateDto.ToEntity());
+                var courseDto = StudentTransform.ToDto(course);
+                return Ok(course);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }
+
+    

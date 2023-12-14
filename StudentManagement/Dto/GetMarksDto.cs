@@ -1,23 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace StudentManagement.DTO
+namespace StudentManagement.Dto
 {
-    public class MarkAddDto
+    public class GetMarksDto
     {
-
+        public int Id { get; set; }
         [Required]
         public int StudentId { get; set; }
         [Required]
         public int CourseId { get; set; }
-
-        [Required]
-        [Range(1,10)]
         public int Grade { get; set; }
-        [Required]
         public DateTime DataGrade { get; set; }
-
-
-
-
     }
 }

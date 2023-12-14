@@ -1,6 +1,6 @@
-﻿using StudentManagement.DTO;
+﻿using StudentManagement.Dto;
+using StudentManagement.DTO;
 using StudentManagement.Model;
-using System.Reflection.Metadata.Ecma335;
 
 namespace StudentManagement.Transform
 {
@@ -9,7 +9,25 @@ namespace StudentManagement.Transform
         public static StudentGetDto ToDto(this Student student) =>
             student is null
             ? throw new Exception($"Student not Found {student}")
-            : new StudentGetDto { Id =  student.Id ,Name = student.Name , Age = student.Age};
+            : new StudentGetDto { Id = student.Id, Name = student.Name, Age = student.Age };
+
+        public static GetMarksDto ToDto(this Marks marks) =>
+            marks is null
+            ? throw new Exception("Cannot be null!!")
+            : new GetMarksDto {  Id = marks.Id, Grade = marks.Grade, DataGrade = marks.DataGrade , CourseId = marks.CourseId ,StudentId = marks.StudentId}; 
+
+        public static CourseGetDto ToDto(this Course course) =>
+            course is null
+            ? throw new Exception($"Course {course} data not found")
+            : new CourseGetDto { Id = course.Id, Name = course.Name };
+
+        public static Course ToEntity(this CreateCourseDto course) =>
+            course is null
+            ? throw new Exception($"Course alreadu exist! {course}")
+            : new Course
+            {
+                Name = course.Name
+            };
 
         public static Student ToEntity(this StudentCreateDto student) =>
             student is null
@@ -20,6 +38,18 @@ namespace StudentManagement.Transform
                 Age = student.Age,
             };
 
+        public static Marks ToEntity(this MarkAddDto markss) =>
+            markss is null
+            ? throw new Exception("Cannot be nulll")
+            : new Marks
+            {
+                StudentId = markss.StudentId,
+                CourseId = markss.CourseId,
+                Grade = markss.Grade,
+                DataGrade = markss.DataGrade
+            };
+        
+
         public static Student ToEntity(this StudentUpdateDto student) =>
             student is null
             ? throw new Exception($"Student not found{student}!!")
@@ -29,6 +59,12 @@ namespace StudentManagement.Transform
                 Name = student.Name,
                 Age = student.Age,
             };
+
+        public static Course ToEntity(this CourseUpdateDto course) =>
+            course is null 
+            ? throw new Exception($"Course not found{course}")
+            : new Course {Id = course.Id, Name = course.Name };
+
         public static StudentAddressDto ToDto(this Address studentAddress) =>
             studentAddress is null
             ? throw new Exception("Address not found !")

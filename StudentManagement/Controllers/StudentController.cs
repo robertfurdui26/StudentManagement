@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using StudentManagement.DAL;
+﻿ using Microsoft.AspNetCore.Mvc;
 using StudentManagement.Data;
 using StudentManagement.DTO;
 using StudentManagement.Transform;
@@ -24,10 +23,33 @@ namespace StudentManagement.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StudentGetDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(string))]
-        public IEnumerable<StudentGetDto> GetAllStudents()
+        public async Task<IEnumerable<StudentGetDto>> GetAllStudents()
         {
-            var allStudents = dal.GetStudents();
+            var allStudents =  await dal.GetAllStudents();
             return allStudents.Select(s => StudentTransform.ToDto(s)).ToList();
+        }
+
+        /// <summary>
+        /// Get Student by Id
+        /// </summary>
+        /// <param name="id">studentId</param>
+        /// <returns>return a student from database by id</returns>
+        [HttpGet("/getStudentById")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StudentGetDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(string))]
+        public async Task<ActionResult<StudentGetDto>> GetStudentId(int studentId)
+        {
+            try
+            {
+                var student = await dal.GetIdStudent(studentId);
+                var studentDto = StudentTransform.ToDto(student);
+                return Ok(student);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -39,8 +61,39 @@ namespace StudentManagement.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StudentCreateDto))]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        public StudentGetDto CreateStudent([FromBody] StudentCreateDto studentToCreate) =>
-            dal.AddStudent(studentToCreate.ToEntity()).ToDto();
+        public async Task<ActionResult<StudentGetDto>> CreateStudent([FromBody] StudentCreateDto studentToCreate)
+        {
+            try
+            {
+                var addedStudent = await dal.AddStudent(studentToCreate.ToEntity());
+                var studentDto = StudentTransform.ToDto(addedStudent);
+                return Ok(studentDto);
+            }catch (Exception ex)
+            {
+               return  BadRequest(ex.Message);
+            }
+        }
+        //background-image: url('./images/holybg.jpg');
+
+        /// <summary>
+        /// GetStudent Address
+        /// </summary>
+        /// <param name="studentId"></param>
+        /// <returns></returns>
+        [HttpGet("studentAddress")]
+        public async Task<ActionResult<StudentAddressDto>> GetStudentAddress(int studentId)
+        {
+            try
+            {
+                var studentAddress = await dal.StudentAddress(studentId);
+                var studentDtoAddress = StudentTransform.ToDto(studentAddress);
+                return Ok(studentDtoAddress);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         /// <summary>
         /// Update a student from db
@@ -51,21 +104,18 @@ namespace StudentManagement.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StudentUpdateDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(string))]
-        public StudentGetDto UpdateStudent([FromBody] StudentUpdateDto studentToUpdate) =>
-            dal.Update(studentToUpdate.ToEntity()).ToDto();
-
-
-        /// <summary>
-        /// Get Student by Id
-        /// </summary>
-        /// <param name="id">studentId</param>
-        /// <returns>return a student from database by id</returns>
-        [HttpGet("/getStudentById/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StudentGetDto))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(string))]
-        public StudentGetDto GetStudentbyId(int id) =>
-            dal.StudentById(id).ToDto();
+        public async Task<ActionResult<StudentGetDto>> UpdateStudent([FromBody] StudentUpdateDto studentToUpdate)
+        {
+            try
+            {
+                var student = await dal.Update(studentToUpdate.ToEntity());
+                var studentDto = StudentTransform.ToDto(student);
+                return Ok(studentDto);
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }     
 
         /// <summary>
         /// Delete a student 
@@ -76,17 +126,17 @@ namespace StudentManagement.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(string))]
-        public IActionResult DeleteAStudent(int id)
+        public async Task<IActionResult> DeleteAStudent(int id)
         {
             try
             {
-                dal.DeleteStudent(id);
+               await dal.DeleteStudent(id);
+                return Ok();
             }
             catch(Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            return Ok();
         }
     }
 }

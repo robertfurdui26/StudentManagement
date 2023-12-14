@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StudentManagement.DAL;
+using StudentManagement.Data;
 
 namespace StudentManagement.Controllers
 {
@@ -7,9 +7,9 @@ namespace StudentManagement.Controllers
     [ApiController]
     public class SeedController : ControllerBase
     {
-        private readonly DataAccessLayerService _dal;
+        private readonly IDataAccessLayerService _dal;
 
-        public SeedController(DataAccessLayerService dal)
+        public SeedController(IDataAccessLayerService dal)
         {
             _dal = dal;
         }

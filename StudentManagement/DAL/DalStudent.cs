@@ -12,11 +12,36 @@ namespace StudentManagement.DAL
         {
             this.ctx = ctx;
         }
-       
-        public IEnumerable<Student> GetStudents() => ctx.StudentsDb.ToList();
-        public Address StudentAddress(int studentId)
+
+        public async Task<IEnumerable<Student>> GetAllStudents() 
+        { 
+            return await ctx.StudentsDb.OrderBy(c => c.Id).ToListAsync();
+        } 
+
+        public async Task<Student> GetIdStudent(int studentId)
         {
-            var student = ctx.StudentsDb.Include(s => s.Address).FirstOrDefault(s => s.Id == studentId);
+            var student = await ctx.StudentsDb.FirstOrDefaultAsync(s => s.Id == studentId);
+            if(student == null)
+            {
+                throw new Exception($"Student with id {studentId} doesn't exist ");
+            }
+            return student;
+        }
+
+        public async Task<Student> AddStudent(Student student)
+        {
+            if ( ctx.StudentsDb.Any(s => s.Id == student.Id))
+            {
+                throw new Exception($"Student already exist!!!{student}");
+            }
+            ctx.StudentsDb.Add(student);
+             await ctx.SaveChangesAsync();
+            return student;
+        }
+
+        public  async Task<Address> StudentAddress(int studentId)
+        {
+            var student = await ctx.StudentsDb.Include(s => s.Address).FirstOrDefaultAsync(s => s.Id == studentId);
             if (student is not null)
             {
                 return student.Address;
@@ -24,22 +49,9 @@ namespace StudentManagement.DAL
             throw new Exception($"Student id not found for student {studentId}");
         }
 
-        public Student StudentById(int id) => ctx.StudentsDb.FirstOrDefault(s => s.Id == id);
-
-        public Student AddStudent(Student student)
+        public async Task<Student> Update(Student studentToUpdate)
         {
-            if (ctx.StudentsDb.Any(s => s.Id == student.Id))
-            {
-                throw new Exception($"Student already exist!!!{student}");
-            }
-            ctx.StudentsDb.Add(student);
-            ctx.SaveChanges();
-            return student;
-        }
-
-        public Student Update(Student studentToUpdate)
-        {
-            var student = ctx.StudentsDb.FirstOrDefault(s => s.Id == studentToUpdate.Id);
+            var student = await ctx.StudentsDb.FirstOrDefaultAsync(s => s.Id == studentToUpdate.Id);
             if (student == null)
             {
                 throw new Exception($"Student not found{student}");
@@ -50,6 +62,27 @@ namespace StudentManagement.DAL
             return student;
 
         }
+
+        public async Task DeleteStudent(int studentId)
+        {
+            var student = await ctx.StudentsDb.FirstOrDefaultAsync(s => s.Id == studentId);
+            if (student == null)
+            {
+                throw new Exception($"Student  {studentId} doesn't exist!");
+            }
+            ctx.StudentsDb.Remove(student);
+           await ctx.SaveChangesAsync();
+
+        }
+
+        /*
+
+        
+         
+
+       
+
+      
 
         public IEnumerable<Student> GetStudentByAverageOrder()
         {
@@ -73,19 +106,9 @@ namespace StudentManagement.DAL
                 throw;
             }
         }
-        public void DeleteStudent(int studentId)
-        {
-            var student = ctx.StudentsDb.FirstOrDefault(s => s.Id == studentId);
-            if (student == null)
-            {
-                throw new Exception($"Student doesn't exist {studentId}");
-            }
-            ctx.StudentsDb.Remove(student);
-            ctx.SaveChanges();
 
-        }
+        */
 
-      
 
     }
 }

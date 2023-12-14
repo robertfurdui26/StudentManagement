@@ -8,6 +8,7 @@ namespace StudentManagement.DTO
         public string Name { get; set; }
 
         [Required]
+        [Range(1,100)]
         public int Age { get; set; }
     }
 }

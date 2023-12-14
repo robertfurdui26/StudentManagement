@@ -46,6 +46,26 @@ namespace StudentManagement.DAL
                 }
             });
 
+            ctx.CoursesDb.Add(new Course
+            { 
+                Name = "Matematica"
+
+            });
+
+            ctx.CoursesDb.Add(new Course
+            {
+                Name = "Romana"
+
+            });
+
+            ctx.CoursesDb.Add(new Course
+            {
+                Name = "Engleza"
+
+            });
+
+           
+
             ctx.SaveChanges();
         }
         #endregion

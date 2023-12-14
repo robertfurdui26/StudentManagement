@@ -11,9 +11,12 @@ namespace StudentManagement.Data
         }
 
         public DbSet<Student> StudentsDb { get; set; }
-        public DbSet<Address> AddressDb { get; set; }
         public DbSet<Marks> MarksDb { get; set; }
+
+        public DbSet<Address> AddressDb { get; set; }
         public DbSet<Course> CoursesDb { get; set; }
+
+
         public DbSet<Teachers> TeachersDb { get; set; }
     }
 }
