@@ -39,6 +39,17 @@ namespace StudentManagement.DAL
             return student;
         }
 
+        public async Task<User> AddUser(User user)
+        {
+            if( ctx.UserDb.Any(s =>s.UserName == user.UserName))
+            {
+                throw new Exception($"Student with name {user.UserName} exist already!");
+            }
+            ctx.UserDb.Add(user);
+            await ctx.SaveChangesAsync();
+            return user;
+        }
+
         public  async Task<Address> StudentAddress(int studentId)
         {
             var student = await ctx.StudentsDb.Include(s => s.Address).FirstOrDefaultAsync(s => s.Id == studentId);

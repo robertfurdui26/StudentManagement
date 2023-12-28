@@ -12,19 +12,7 @@ var connString = builder.Configuration.GetConnectionString("SqlDbConnectionStrin
 builder.Services.AddDbContext<StudentDbContext>(options => options.UseSqlServer(connString));
 builder.Services.AddScoped<IDataAccessLayerService,DataAccessLayerService>();
 builder.Services.AddControllers();
-builder.Services.AddAuthentication("Bearer").AddJwtBearer(option =>
-  {
-    option.TokenValidationParameters = new()
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Authentication:Issuer"],
-        ValidAudience = builder.Configuration["Authentication:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Authentication:SecreteKey"]))
-     };
-  }
-);
+
 
 builder.Services.AddCors(options =>
 {

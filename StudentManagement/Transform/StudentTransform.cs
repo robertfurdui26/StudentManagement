@@ -29,6 +29,8 @@ namespace StudentManagement.Transform
                 Name = course.Name
             };
 
+       
+
         public static Student ToEntity(this StudentCreateDto student) =>
             student is null
             ? throw new Exception($"Student data empty for {student}")

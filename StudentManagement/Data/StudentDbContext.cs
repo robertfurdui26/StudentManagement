@@ -16,7 +16,9 @@ namespace StudentManagement.Data
         public DbSet<Address> AddressDb { get; set; }
         public DbSet<Course> CoursesDb { get; set; }
 
-
+        public DbSet<User> UserDb { get; set; }
         public DbSet<Teachers> TeachersDb { get; set; }
+
+        public DbSet<Video> VideoDb { get; set; }
     }
 }

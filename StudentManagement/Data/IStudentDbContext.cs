@@ -10,6 +10,10 @@ namespace StudentManagement.Data
 
         DbSet<Course> CoursesDb { get; set; }
         DbSet<Student> StudentsDb { get; set; }
+
+        DbSet<User> UserDb { get; set; }
         DbSet<Teachers> TeachersDb { get; set; }
+        DbSet<Video> VideoDb { get; set; }
+
     }
 }

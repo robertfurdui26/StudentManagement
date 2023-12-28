@@ -1,4 +1,5 @@
-﻿using StudentManagement.Model;
+﻿using StudentManagement.Dto;
+using StudentManagement.Model;
 using System.Threading.Tasks;
 
 namespace StudentManagement.Data
@@ -20,6 +21,9 @@ namespace StudentManagement.Data
         Task<IEnumerable<Marks>> GetStudentMark();
         Task<Marks>  AddMark(int studentId, int courseId, int grade);
         Task<Course> UpCourse(Course courseUpdate);
+        Task<User> AddUser(User user);
+        Task<Video> AddClip(Video videoDto);
+        Task<IEnumerable<VideoGetDto>> GetVideos();
         void Seed();
     }
 }
