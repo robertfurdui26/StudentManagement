@@ -74,6 +74,25 @@ namespace StudentManagement.Controllers
             }
         }
 
+        /// <summary>
+        /// DeleteCourse
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Delete a course from database from ID</returns>
+        [HttpDelete("deleteCourse")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await dal.DeleteCourse(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }
 

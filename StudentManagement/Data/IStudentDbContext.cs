@@ -13,7 +13,6 @@ namespace StudentManagement.Data
 
         DbSet<User> UserDb { get; set; }
         DbSet<Teachers> TeachersDb { get; set; }
-        DbSet<Video> VideoDb { get; set; }
 
     }
 }

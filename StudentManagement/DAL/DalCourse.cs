@@ -12,20 +12,7 @@ namespace StudentManagement.DAL
           return await ctx.CoursesDb.ToListAsync();
         }
 
-        public async Task<IEnumerable<VideoGetDto>> GetVideos()
-        {
-            var videos = await ctx.VideoDb.ToListAsync();
-
-            return videos.Select(v => new VideoGetDto
-            {
-                Id = v.Id,
-                Name = v.Name,
-                Description = v.Description,
-                VideoDataPath = $"api/Video/getVideos/{v.Id}" // Adjust the path/URL based on your requirements
-            });
-        }
-
-
+      
 
         public async Task<Course> AddCourse(Course course)
         {
@@ -51,21 +38,19 @@ namespace StudentManagement.DAL
             return course;
         }
 
-        public async Task<Video>AddClip(Video videoDto)
+     
+        public async Task DeleteCourse(int courseId)
         {
-            var videoEntity = new Video
+            var course = await ctx.CoursesDb.FirstOrDefaultAsync(s => s.Id == courseId);
+
+            if (course == null)
             {
-                Name = videoDto.Name,
-                Description = videoDto.Description,
-                VideoData = videoDto.VideoData
-            };
+                throw new Exception($"Course with id {courseId} does not exist!");
+            }
 
-            await ctx.VideoDb.AddAsync(videoEntity);
+            ctx.CoursesDb.Remove(course);
             await ctx.SaveChangesAsync();
-            return videoEntity;
         }
-      
-
 
     }
 }

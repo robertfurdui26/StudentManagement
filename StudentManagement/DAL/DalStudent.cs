@@ -84,42 +84,6 @@ namespace StudentManagement.DAL
             ctx.StudentsDb.Remove(student);
            await ctx.SaveChangesAsync();
 
-        }
-
-        /*
-
-        
-         
-
-       
-
-      
-
-        public IEnumerable<Student> GetStudentByAverageOrder()
-        {
-            try
-            {
-                var students = ctx.StudentsDb.ToList();
-                var studentAverageList = students
-            .OrderByDescending(s => s.CalculateTotalAverage()).Select(s => new Student
-            {
-                Id = s.Id,
-                Name = s.Name,
-                Age = s.Age,
-                StudentTotalAverage = s.CalculateTotalAverage()
-            }).ToList();
-
-                return studentAverageList;
-            }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine($"Error trying get student: {ex.Message}");
-                throw;
-            }
-        }
-
-        */
-
-
+        } 
     }
 }

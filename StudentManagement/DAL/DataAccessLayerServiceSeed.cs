@@ -64,7 +64,21 @@ namespace StudentManagement.DAL
 
             });
 
-           
+            ctx.TeachersDb.Add(new Teachers
+            {
+                Name = "Richard Oswolt",
+                Age = 34,
+                Description = "Study at Harvard,Sports,educated highly,determinated and love to play BasketBall"
+            });
+
+            ctx.TeachersDb.Add(new Teachers
+            {
+                Name = "Jhon Mayer",
+                Age = 56,
+                Description = "Study at Oxford,tecaher math,love math and algorithm"
+            });
+
+
 
             ctx.SaveChanges();
         }

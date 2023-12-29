@@ -22,8 +22,9 @@ namespace StudentManagement.Data
         Task<Marks>  AddMark(int studentId, int courseId, int grade);
         Task<Course> UpCourse(Course courseUpdate);
         Task<User> AddUser(User user);
-        Task<Video> AddClip(Video videoDto);
-        Task<IEnumerable<VideoGetDto>> GetVideos();
+        Task DeleteCourse(int courseId);
+        Task<IEnumerable<Teachers>> GetTeacherInfo();
+        Task<Teachers> AddTeacher(Teachers teachers);
         void Seed();
     }
 }

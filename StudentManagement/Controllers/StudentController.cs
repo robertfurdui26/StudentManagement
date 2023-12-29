@@ -73,7 +73,6 @@ namespace StudentManagement.Controllers
                return  BadRequest(ex.Message);
             }
         }
-        //background-image: url('./images/holybg.jpg');
 
         /// <summary>
         /// GetStudent Address

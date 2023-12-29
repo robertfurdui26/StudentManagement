@@ -19,6 +19,5 @@ namespace StudentManagement.Data
         public DbSet<User> UserDb { get; set; }
         public DbSet<Teachers> TeachersDb { get; set; }
 
-        public DbSet<Video> VideoDb { get; set; }
     }
 }

@@ -11,6 +11,11 @@ namespace StudentManagement.Transform
             ? throw new Exception($"Student not Found {student}")
             : new StudentGetDto { Id = student.Id, Name = student.Name, Age = student.Age };
 
+        public static GetTeacherDto ToDto(this Teachers teacher) =>
+            teacher is null
+            ? throw new Exception($"Teacher not found{teacher}")
+            : new GetTeacherDto { Id = teacher.Id,Name = teacher.Name, Age = teacher.Age ,Description = teacher.Description};
+
         public static GetMarksDto ToDto(this Marks marks) =>
             marks is null
             ? throw new Exception("Cannot be null!!")
@@ -29,7 +34,15 @@ namespace StudentManagement.Transform
                 Name = course.Name
             };
 
-       
+        public static Teachers ToEntity(this TeacherCreateDto teacher) =>
+            teacher is null
+            ? throw new Exception($"Teacher not created{teacher}")
+            : new Teachers
+            {
+                Name = teacher.Name,
+                Age = teacher.Age,
+                Description = teacher.Description
+            };
 
         public static Student ToEntity(this StudentCreateDto student) =>
             student is null
