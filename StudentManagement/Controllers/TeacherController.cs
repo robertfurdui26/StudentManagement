@@ -23,6 +23,9 @@ namespace StudentManagement.Controllers
         /// </summary>
         /// <returns>Teacher seeded from database</returns>
         [HttpGet("getTeacherInfo")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetTeacherDto))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         public async Task<IEnumerable<GetTeacherDto>> GetTeacher()
         {
            var allTeacher = await dal.GetTeacherInfo();
